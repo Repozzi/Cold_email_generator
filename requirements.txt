@@ -1,2 +1,8 @@
 ipykernel
 python-dotenv
+groq
+google-colab
+together
+openai
+python-dotenv
+streamlit
