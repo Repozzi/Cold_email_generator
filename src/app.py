@@ -25,10 +25,12 @@ llama_405B = "llama-3.1-405b-reasoning"
 def main():
     st.title("Cold Email Generator")
 
-    # Replace get_user_input() with Streamlit input
-    target = st.text_input("Please enter the industry or company you want to target:")
+    # Create a sidebar
+    with st.sidebar:
+        target = st.text_input("Enter the industry or company you want to target:")
+        generate_button = st.button("Generate Cold Email")
 
-    if st.button("Generate Cold Email"):
+    if generate_button:
         if target:
             with st.spinner("Generating queries..."):
                 generated_queries = query_agent(target)
@@ -59,13 +61,13 @@ def main():
             st.text(cold_email_70B)
 
             # Option to download emails
-            st.download_button(
+            st.sidebar.download_button(
                 label="Download 405B Model Email",
                 data=cold_email_405B,
                 file_name="cold_email_405B.txt",
                 mime="text/plain",
             )
-            st.download_button(
+            st.sidebar.download_button(
                 label="Download 70B Model Email",
                 data=cold_email_70B,
                 file_name="cold_email_70B.txt",
@@ -86,7 +88,7 @@ def query_agent(target):
                 Query 01: biggest pain points faced by this avatar
                 Query 02: biggest companies in this industry
                 Query 03: how companies in this industry get clients
-                Query 04: where to find companeis in this industry online
+                Query 04: where to find companeies in this industry online
                 IMPORTANT: Respond with only the queries, one per line.""",
             },
             {
@@ -127,12 +129,12 @@ def cold_email_agent_70B(target, search_results):
             {
                 "role": "system",
                 "content": """You are an expert cold email writer.
-                    Your task is to write concise and personalized cold emails based on the Market Research given to you.
-                    Make sure to utilize all 4 areas of the research I(pain points, companies, clients, and online sources)
-                    Focus on describing what the target avatar will get, add an appealing guarantee.
-                    Keep the email concise and use plain English.
-                    #### DO NOT OUTPUT OTHER INFORMATION EXCEPT COLD EMAIL ITSELF !!! ONLY THE COLD EMAIL ITSELF! ####.
-                    """,
+                Your task is to write concise and personalized cold emails based on the Market Research given to you.
+                Make sure to utilize all 4 areas of the research I(pain points, companies, clients, and online sources)
+                Focus on describing what the target avatar will get, add an appealing guarantee.
+                Keep the email concise and use plain English.
+                #### DO NOT OUTPUT OTHER INFORMATION EXCEPT COLD EMAIL ITSELF !!! ONLY THE COLD EMAIL ITSELF! ####.
+                """,
             },
             {
                 "role": "user",
